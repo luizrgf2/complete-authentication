@@ -4,7 +4,9 @@
   "description": "Project to show my skills to create authentication",
   "main": "index.js",
   "scripts": {
-    "test:entities": "jest src/app/core/entities/*.spec.ts"
+    "test:entities": "jest src/app/core/entities/*.spec.ts",
+    "test:useCases": "jest src/app/data/useCases/*.spec.ts",
+    "test":"jest src/app/**/*.spec.ts"
   },
   "author": "Luiz Felipe",
   "license": "ISC",
