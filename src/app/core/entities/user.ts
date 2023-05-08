@@ -57,4 +57,8 @@ export class UserEntity{
 
         return Right.create(user)
     }
+
+    static createWithoutValidations(user:UserInterface):UserEntity{
+        return new UserEntity(user)
+    }
 }
