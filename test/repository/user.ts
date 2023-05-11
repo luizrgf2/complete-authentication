@@ -15,6 +15,7 @@ export class UserRepoInMemory implements UserRepositoryInterface{
             updatedAt:new Date('2023-05-01'),
             id:"1"
         } as UserInterface
+        this.user.push(userCreated)
         return Right.create(userCreated)
     }
 
