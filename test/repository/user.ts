@@ -6,6 +6,7 @@ import { UserRepositoryInterface } from "../../src/app/data/interfaces/repositor
 
 export class UserRepoInMemory implements UserRepositoryInterface{
 
+
     user:UserInterface[] = []
 
     async create (user: Omit<UserInterface, "id" | "createdAt" | "updatedAt">) : Promise<Either<ErrorBase, UserInterface>>{
@@ -30,6 +31,22 @@ export class UserRepoInMemory implements UserRepositoryInterface{
         if(userToFind.length === 0) return Left.create(new UserNotExistsError())
         return Right.create(userToFind[0])
     }
+
+    async deleteById (id: string) : Promise<Either<ErrorBase, void>>{
+        const userToFind = this.user.filter(item=>item.id === id)
+        if(userToFind.length === 0) return Left.create(new UserNotExistsError())
+        this.user = []
+        return Right.create(undefined)
+    }
+
+    async confirmEmail (id: string, email: string) : Promise<Either<ErrorBase, void>>{
+        const userToFind = this.user.filter(item=>(item.id === id && item.email === email))
+        if(userToFind.length === 0) return Left.create(new UserNotExistsError())
+        const indexToUpdate = this.user.indexOf(userToFind[0])
+        this.user[indexToUpdate] = {...userToFind[0],accountConfirmed:true}
+        return Right.create(undefined)
+    }
+
 
 
 }
