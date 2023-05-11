@@ -2,7 +2,7 @@ import { UserEntity, UserInterface } from "../../core/entities/user";
 import { Either, Left, Right } from "../../core/errors/either";
 import { ErrorBase } from "../../core/errors/errorBase";
 import { RegisterUseCaseInput, RegisterUseCaseInterface, RegisterUseCaseOutput } from "../../core/useCases/registerInterface";
-import { EmailAlreadyExistsError } from "../errors/emailAlreayExists";
+import { EmailAlreadyExistsError } from "../../core/errors/user/emailAlreayExists";
 import { BcryptInterface } from "../interfaces/bcrypt";
 import { JWTInterface } from "../interfaces/jwt";
 import { UserRepositoryInterface } from "../interfaces/repository/user";
