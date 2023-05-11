@@ -7,4 +7,5 @@ export interface UserRepositoryInterface{
     findByEmail:(email:string)=>Promise<Either<ErrorBase,UserInterface>>
     findById:(id:string)=>Promise<Either<ErrorBase,UserInterface>>
     deleteById: (id: string)=>Promise<Either<ErrorBase, void>> 
+    confirmEmail: (id:string,email:string) =>Promise<Either<ErrorBase,void>>
 }

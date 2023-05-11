@@ -15,6 +15,7 @@ model User{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name String
+  accountConfirmed Boolean @default(false)
   email String @unique
   password String
 }

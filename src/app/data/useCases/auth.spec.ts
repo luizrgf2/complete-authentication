@@ -1,8 +1,9 @@
-import { UserValid, UserWithInvalidEmail, UserWithInvalidPassword, UserWithWithoutEmail, UserWithoutPassword } from "../../../../test/mocks/user/user"
+import { UserValid, UserWithConfirmationFalse, UserWithInvalidEmail, UserWithInvalidPassword, UserWithWithoutEmail, UserWithoutConfirmation, UserWithoutPassword } from "../../../../test/mocks/user/user"
 import { UserRepoInMemory } from "../../../../test/repository/user"
 import { BcryptInMemory } from "../../../../test/services/bcrypt"
 import { JWTInMemory } from "../../../../test/services/jwt"
 import { AuthWrongError } from "../../core/errors/user/authWrong"
+import { EmailNotConfirmedError } from "../../core/errors/user/emailNotConfirmed"
 import { AuthUseCase } from "./auth"
 
 describe("AuthUseCases tests", function(){
@@ -12,7 +13,7 @@ describe("AuthUseCases tests", function(){
     const bcrypt = new BcryptInMemory()
 
     it("should be able auth with user exists in database", async function(){
-
+        userRepo.user = []
         await userRepo.create({
             ...UserValid
         })
@@ -25,7 +26,7 @@ describe("AuthUseCases tests", function(){
 
     it("should be able return error if try auth with invalid email", async function(){
 
-        
+        userRepo.user = []
         const sut = new AuthUseCase(userRepo,jwt,bcrypt)
         const res = await sut.exec({email:UserValid.email,password:UserValid.password})
 
@@ -33,7 +34,7 @@ describe("AuthUseCases tests", function(){
     })
 
     it("should be able return error if try auth with invalid password", async function(){
-
+        userRepo.user = []
         await userRepo.create({
             ...UserWithInvalidPassword
         })
@@ -45,7 +46,7 @@ describe("AuthUseCases tests", function(){
     })
 
     it("should be able return error if try auth without password", async function(){
-
+        userRepo.user = []
         await userRepo.create({
             ...UserWithoutPassword
         })
@@ -57,7 +58,7 @@ describe("AuthUseCases tests", function(){
     })
 
     it("should be able return error if try auth without email", async function(){
-
+        userRepo.user = []
         await userRepo.create({
             ...UserWithWithoutEmail
         })
@@ -68,4 +69,31 @@ describe("AuthUseCases tests", function(){
         expect(res.left).toBeInstanceOf(AuthWrongError)
     })
 
+    it("should be able return error if try auth with confirmation false", async function(){
+
+        userRepo.user = []
+
+        await userRepo.create({
+            ...UserWithConfirmationFalse
+        })
+
+        const sut = new AuthUseCase(userRepo,jwt,bcrypt)
+        const res = await sut.exec({email:UserWithConfirmationFalse.email,password:UserWithConfirmationFalse.password})
+
+        expect(res.left).toBeInstanceOf(EmailNotConfirmedError)
+    })
+
+    it("should be able return error if try auth without confirmation email", async function(){
+
+        userRepo.user = []
+
+        await userRepo.create({
+            ...UserWithoutConfirmation
+        })
+
+        const sut = new AuthUseCase(userRepo,jwt,bcrypt)
+        const res = await sut.exec({email:UserWithoutConfirmation.email,password:UserWithoutConfirmation.password})
+
+        expect(res.left).toBeInstanceOf(EmailNotConfirmedError)
+    })
 })

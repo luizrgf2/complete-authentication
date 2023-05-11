@@ -10,7 +10,8 @@ export interface UserInterface{
     updatedAt:Date,
     name:string,
     email:string,
-    password:string
+    password:string,
+    accountConfirmed?:boolean
 }
 
 
@@ -45,6 +46,10 @@ export class UserEntity{
 
     removePassword() {
         this.user.password = ""
+    }
+
+    removeConfirmationEmailField(){
+        this.user.accountConfirmed === undefined
     }
 
     setPassword(password:string){
