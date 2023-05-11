@@ -9,6 +9,7 @@ import { EmailAlreadyExistsError } from '../../core/errors/user/emailAlreayExist
 const prisma = new PrismaClient();
 
 export class PrismaUserRepository implements UserRepositoryInterface {
+
   async create(user: Omit<UserInterface, 'id' | 'createdAt' | 'updatedAt'>): Promise<Either<ErrorBase, UserInterface>> {
     try {
       const createdUser = await prisma.user.create({ data: user });
@@ -51,4 +52,14 @@ export class PrismaUserRepository implements UserRepositoryInterface {
       return Left.create(new ErrorBase(error.message, 500));
     }
   }
+
+  async confirmEmail (id: string, email: string) : Promise<Either<ErrorBase, void>>{
+    try{
+        await prisma.user.update({where:{id:id,email:email},data:{accountConfirmed:true}})
+        return Right.create(undefined)
+    }catch(error: any){
+      return Left.create(new ErrorBase(error.message, 500));
+    }
+  }
+  
 }
