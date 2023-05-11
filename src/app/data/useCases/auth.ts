@@ -2,6 +2,7 @@ import { UserEntity } from "../../core/entities/user";
 import { Either, Left, Right } from "../../core/errors/either";
 import { ErrorBase } from "../../core/errors/errorBase";
 import { AuthWrongError } from "../../core/errors/user/authWrong";
+import { EmailNotConfirmedError } from "../../core/errors/user/emailNotConfirmed";
 import { UserNotExistsError } from "../../core/errors/user/userNotExists";
 import { AuthUseCaseInput, AuthUseCaseInterface, AuthUseCaseOutput } from "../../core/useCases/authInterface";
 import { BcryptInterface } from "../interfaces/bcrypt";
@@ -43,6 +44,8 @@ export class AuthUseCase implements AuthUseCaseInterface{
         const userData = await this.checkIfEmailExists(email)
         if(userData.left) return Left.create(userData.left)       
 
+        if(userData.right.user.accountConfirmed === false || userData.right.user.accountConfirmed === undefined) return Left.create(new EmailNotConfirmedError())
+
         const passwordIsCorrect = await this.checkIfPasswordIsCorrect(password,userData.right.user.password)
         if(passwordIsCorrect.left) return Left.create(passwordIsCorrect.left)
 
@@ -54,6 +57,7 @@ export class AuthUseCase implements AuthUseCaseInterface{
         if(tokenJWT.left) return Left.create(tokenJWT.left)
 
         userData.right.removePassword()
+        userData.right.removeConfirmationEmailField()
 
         return Right.create({
             token:tokenJWT.right,
