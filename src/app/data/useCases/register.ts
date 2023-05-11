@@ -88,6 +88,7 @@ export class RegisterUserUseCase implements RegisterUseCaseInterface{
         if(sendEmail.left) return Left.create(sendEmail.left)
 
         createUser.right.removePassword()
+        userData.right.removeConfirmationEmailField()
 
         return Right.create({
             user:{...createUser.right.user},
