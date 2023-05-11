@@ -7,7 +7,8 @@ export class BcryptInMemory implements BcryptInterface{
         return Right.create("password encypted")
     }
     async compare(password: string, hash: string): Promise<Either<ErrorBase, boolean>> {
-        return Right.create(true)
+        if(password === hash) return Right.create(true)
+        return Right.create(false)
     }
     
 }
