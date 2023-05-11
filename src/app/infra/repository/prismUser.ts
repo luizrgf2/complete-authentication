@@ -38,4 +38,17 @@ export class PrismaUserRepository implements UserRepositoryInterface {
       return Left.create(new ErrorBase(error.message, 500));
     }
   }
+
+  async deleteById(id: string): Promise<Either<ErrorBase, void>> {
+    try {
+      const deletedUser = await prisma.user.delete({ where: { id } });
+      if (deletedUser) {
+        return Right.create(undefined);
+      } else {
+        return Left.create(new UserNotExistsError());
+      }
+    } catch (error: any) {
+      return Left.create(new ErrorBase(error.message, 500));
+    }
+  }
 }
