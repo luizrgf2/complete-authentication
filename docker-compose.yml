@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  db:
+    image: mysql
+    container_name: database
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "3305:3306"
+
+    
