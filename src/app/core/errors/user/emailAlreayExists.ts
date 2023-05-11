@@ -1,4 +1,4 @@
-import { ErrorBase } from "../../core/errors/errorBase";
+import { ErrorBase } from "../errorBase";
 
 export class EmailAlreadyExistsError extends ErrorBase{
     constructor(){
