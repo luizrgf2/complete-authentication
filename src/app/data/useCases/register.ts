@@ -76,7 +76,7 @@ export class RegisterUserUseCase implements RegisterUseCaseInterface{
         const encodePass = await this.encryptPassword(password)
         if(encodePass.left) return Left.create(encodePass.left)
 
-        userData.right.user.password = encodePass.right
+        userData.right.setPassword(encodePass.right)
 
         const createUser = await this.persistUser(userData.right)
         if(createUser.left) return Left.create(createUser.left)
@@ -87,10 +87,12 @@ export class RegisterUserUseCase implements RegisterUseCaseInterface{
         const sendEmail = await this.sendEmailToConfirmationUserRegister(createToken.right,email)
         if(sendEmail.left) return Left.create(sendEmail.left)
 
-        return Right.create({
-            user:createUser.right.user
-        })
+        createUser.right.removePassword()
 
+        return Right.create({
+            user:{...createUser.right.user},
+            
+        })
     }
 
 }
