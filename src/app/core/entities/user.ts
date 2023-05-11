@@ -43,6 +43,14 @@ export class UserEntity{
         return this.user.name.length >= 4 && this.user.name.length <= 60;
     }
 
+    removePassword() {
+        this.user.password = ""
+    }
+
+    setPassword(password:string){
+        this.user.password = password
+    }
+
     static create(userData:Omit<UserInterface,"id"|"createdAt"|"updatedAt">):Either<ErrorBase,UserEntity>{
         const user = new UserEntity({
             ...userData,
