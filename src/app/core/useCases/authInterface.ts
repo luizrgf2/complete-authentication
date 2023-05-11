@@ -3,7 +3,7 @@ import { Either } from "../errors/either";
 import { ErrorBase } from "../errors/errorBase";
 
 
-export interface AuthUseCaseInput extends Omit<UserInterface,"id"|"createdAt"|"updatedAT"|"name">{}
+export interface AuthUseCaseInput extends Omit<UserInterface,"id"|"createdAt"|"updatedAt"|"name">{}
 
 export interface AuthUseCaseOutput{
     user:UserInterface,
