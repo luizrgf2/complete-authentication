@@ -1,4 +1,4 @@
-import { UserValid, UserWithConfirmationFalse, UserWithInvalidEmail, UserWithInvalidPassword, UserWithWithoutEmail, UserWithoutConfirmation, UserWithoutPassword } from "../../../../test/mocks/user/user"
+import { UserValid, UserWithConfirmationFalse, UserWithInvalidPassword, UserWithWithoutEmail, UserWithoutConfirmation, UserWithoutPassword } from "../../../../test/mocks/user/user"
 import { UserRepoInMemory } from "../../../../test/repository/user"
 import { BcryptInMemory } from "../../../../test/services/bcrypt"
 import { JWTInMemory } from "../../../../test/services/jwt"
