@@ -8,6 +8,7 @@
     "test:services": "jest src/app/infra/services/*.spec.ts",
     "test:entities": "jest src/app/core/entities/*.spec.ts",
     "test:useCases": "jest src/app/data/useCases/*.spec.ts",
+    "test:cov":"jest --coverage",
     "test": "jest src/app/**/*.spec.ts"
   },
   "author": "Luiz Felipe",
