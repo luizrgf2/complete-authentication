@@ -7,6 +7,9 @@ export class JWTInMemory implements JWTInterface{
         return Right.create("validToken")
     }
     decode<T = any>(token: string) : Either<ErrorBase, T>{
+
+        if(token === "userToConfirmEmail") return Right.create({id:"1",email:"teste@gmail.com"} as any)
+
         return Right.create(token as any)
     }
 
