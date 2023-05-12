@@ -6,6 +6,7 @@ import { PrismaUserRepository } from "./prismUser"
 describe("PrismaUserRepository tests",  function(){
 
     let idWillTested = ""
+    let emailToTest = ""
 
     it("should be able create valid user", async function(){
         const sut = new PrismaUserRepository()
@@ -15,6 +16,7 @@ describe("PrismaUserRepository tests",  function(){
         expect({...res.right,createdAt:undefined,updatedAt:undefined,id:undefined}).toEqual(UserValid)
         if(res.left) return
         idWillTested = res.right.id
+        emailToTest = res.right.email
     })
 
     it("should be able return error if create user with email alreay exists", async function(){
@@ -57,6 +59,13 @@ describe("PrismaUserRepository tests",  function(){
         expect(res.left).toBeInstanceOf(UserNotExistsError)
     })
     
+    it("should be able confirm user with valid id and email", async function(){
+        const sut = new PrismaUserRepository()
+        const res = await sut.confirmEmail(idWillTested,emailToTest)
+
+        expect(res.left).toBeUndefined()
+    })
+
     it("should be able delete valid user with id", async function(){
         const sut = new PrismaUserRepository()
         const res = await sut.deleteById(idWillTested)
