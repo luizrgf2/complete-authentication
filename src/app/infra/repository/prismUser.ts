@@ -55,7 +55,7 @@ export class PrismaUserRepository implements UserRepositoryInterface {
 
   async confirmEmail (id: string, email: string) : Promise<Either<ErrorBase, void>>{
     try{
-        await prisma.user.update({where:{id:id,email:email},data:{accountConfirmed:true}})
+        await prisma.user.updateMany({where:{id:id,email:email},data:{accountConfirmed:true}})
         return Right.create(undefined)
     }catch(error: any){
       return Left.create(new ErrorBase(error.message, 500));
