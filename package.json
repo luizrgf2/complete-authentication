@@ -4,13 +4,16 @@
   "description": "Project to show my skills to create authentication",
   "main": "index.js",
   "scripts": {
-    "test:repositories": "jest src/app/infra/repository/*.spec.ts",
-    "test:services": "jest src/app/infra/services/*.spec.ts",
     "test:entities": "jest src/app/core/entities/*.spec.ts",
     "test:useCases": "jest src/app/data/useCases/*.spec.ts",
-    "test:routes":"jest --runInBand src/app/main/controllers/tests/*.spec.ts",
+    "test:services": "jest src/app/infra/services/*.spec.ts",
+    "test:repositories": "jest src/app/infra/repository/*.spec.ts",
+    "test:routes": "jest --runInBand src/app/main/controllers/tests/*.spec.ts",
     "test:cov": "jest --coverage",
-    "test": "jest src/app/**/*.spec.ts"
+    "test" : "npm run test:entities && npm run test:useCases && npm run test:services && npm run test:repositories && npm run test:routes",
+    "build": "tsc",
+    "start": "tsc && node dist/src/app/main/server.js",
+    "dev" : "ts-node-dev --respawn --transpile-only src/app/main/server.ts"
   },
   "author": "Luiz Felipe",
   "license": "ISC",
