@@ -1,9 +1,7 @@
 import { UserValid } from "../../../../../test/mocks/user/user"
 import { PrismaUserRepository } from "../../../infra/repository/prismUser"
-import { JWT } from "../../../infra/services/jwt"
 import request from "supertest"
 import { App } from "../../http/express"
-import { PrismaClient } from "@prisma/client"
 import { Bcrypt } from "../../../infra/services/bcrypt"
 
 
