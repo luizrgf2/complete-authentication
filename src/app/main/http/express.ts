@@ -2,8 +2,8 @@ import express,{Express} from "express"
 import cors from "cors"
 import { publicRoutes } from "../routes/publicRoutes"
 
-export class ExpressServer{
-    private app:Express
+class ExpressServer{
+    app:Express
 
     constructor(){
         this.app = express()
@@ -28,3 +28,5 @@ export class ExpressServer{
         })
     }
 }
+
+export const App = new ExpressServer()
