@@ -23,7 +23,7 @@ class ExpressServer{
 
     public start(port?:number){
         const portFinal = port === undefined ? 8080 : port
-        this.app.listen(port === undefined ? 8080 : portFinal,()=>{
+        this.app.listen(portFinal,()=>{
             console.log(`Server express is started in http://localhost:${portFinal}`)
         })
     }
