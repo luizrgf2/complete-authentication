@@ -2,16 +2,16 @@ import request from "supertest"
 import { UserValid, UserWithInvalidEmail, UserWithInvalidName, UserWithInvalidPassword } from "../../../../../test/mocks/user/user"
 import { App } from "../../http/express"
 import { PrismaUserRepository } from "../../../infra/repository/prismUser"
+import { PrismaClient } from "@prisma/client"
 
 
 
 describe("RegisterExpressController tests", function(){
 
-    const userRepo = new PrismaUserRepository()
-    let idToDelete = ""
+    const prisma = new PrismaClient()
 
     afterAll(async function(){
-        await userRepo.deleteById(idToDelete)
+        await prisma.user.deleteMany({where:{}})
     })
 
     it("should be able create user valid", async function(){
@@ -26,7 +26,6 @@ describe("RegisterExpressController tests", function(){
 
         expect(res.statusCode).toBe(201)
         expect(res.body).toHaveProperty("id")
-        idToDelete = res.body.id
         expect(res.body.name).toBe(UserValid.name)
         expect(res.body.email).toBe(UserValid.email)
     })

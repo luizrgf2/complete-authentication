@@ -3,14 +3,18 @@ import { PrismaUserRepository } from "../../../infra/repository/prismUser"
 import request from "supertest"
 import { App } from "../../http/express"
 import { Bcrypt } from "../../../infra/services/bcrypt"
+import { PrismaClient } from "@prisma/client"
 
 
 describe("AuthUserExpressController tests", function(){
 
     const userRepo = new PrismaUserRepository()
+    const prisma = new PrismaClient()
     const bcrypt = new Bcrypt()
 
-
+    afterAll(async function(){
+        await prisma.user.deleteMany({where:{}})
+    })
 
     it("should be able confirm email with valid token", async function(){
         const password = await bcrypt.hash(UserValid.password)
@@ -37,8 +41,6 @@ describe("AuthUserExpressController tests", function(){
         expect(res.body.user).toHaveProperty("id")
         expect(res.body.user.email).toBe(UserValid.email)
         expect(res.body.user.name).toBe(UserValid.name)
-        await userRepo.deleteById(user.right.id)
-
 
     })
 
@@ -65,7 +67,6 @@ describe("AuthUserExpressController tests", function(){
 
         expect(res.statusCode).toEqual(401)
         expect(res.body).toHaveProperty("error")
-        await userRepo.deleteById(user.right.id)
     })
 
     it("should be able return error if try auth with email not exists", async function(){

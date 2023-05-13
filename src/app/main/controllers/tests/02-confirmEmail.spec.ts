@@ -3,12 +3,14 @@ import { PrismaUserRepository } from "../../../infra/repository/prismUser"
 import { JWT } from "../../../infra/services/jwt"
 import request from "supertest"
 import { App } from "../../http/express"
+import { PrismaClient } from "@prisma/client"
 
 
 describe("ConfirmEmailExpressController", function(){
 
     const userRepo = new PrismaUserRepository()
-    let idToTeste = ""
+    const prisma = new PrismaClient()
+
 
     let token = ""
     
@@ -27,7 +29,7 @@ describe("ConfirmEmailExpressController", function(){
     })
 
     afterAll(async function(){
-        await userRepo.deleteById(idToTeste)
+        await prisma.user.deleteMany({where:{}})
     })
 
     it("should be able confirm email with valid token", async function(){
