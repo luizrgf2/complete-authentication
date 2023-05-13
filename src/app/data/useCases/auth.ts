@@ -53,7 +53,7 @@ export class AuthUseCase implements AuthUseCaseInterface{
 
         const durationOfTokenInMileseconds = 86400000 // 24 hours in mileseconds
 
-        const tokenJWT = this.jwt.encode(userData.right.user.id,durationOfTokenInMileseconds)
+        const tokenJWT = this.jwt.encode({id:userData.right.user.id},durationOfTokenInMileseconds)
         if(tokenJWT.left) return Left.create(tokenJWT.left)
 
         userData.right.removePassword()

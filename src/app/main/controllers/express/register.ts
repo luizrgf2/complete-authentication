@@ -11,7 +11,7 @@ export class RegisterExpressController{
         })
 
         if(response.error) return res.status(response.status).send({error:response.error})
-        res.status(response.status).send(response.body)
+        res.status(response.status).send(response.body?.user)
     }
 
 }

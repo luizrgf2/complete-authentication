@@ -14,7 +14,8 @@ export class JWT implements JWTInterface {
 
   encode(dataToEncode: any, tokenDurationInMilliseconds: number): Either<ErrorBase, string> {
     try {
-      const token = jwt.sign(dataToEncode, this.secretKey, { expiresIn: tokenDurationInMilliseconds / 1000 });
+      const seconds = (tokenDurationInMilliseconds / 1000)
+      const token = jwt.sign(dataToEncode, this.secretKey, { expiresIn: seconds});
       return Right.create(token);
     } catch (error:any) {
       return Left.create(new ErrorBase(error.message, 500)); // or create a custom error type if needed

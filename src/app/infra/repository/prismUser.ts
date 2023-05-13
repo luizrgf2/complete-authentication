@@ -12,7 +12,7 @@ export class PrismaUserRepository implements UserRepositoryInterface {
 
   async create(user: Omit<UserInterface, 'id' | 'createdAt' | 'updatedAt'>): Promise<Either<ErrorBase, UserInterface>> {
     try {
-      const createdUser = await prisma.user.create({ data: user });
+      const createdUser = await prisma.user.create({ data: {...user,id:undefined} });
       return Right.create(createdUser as UserInterface);
     } catch (error: any) {
       if (error.code === 'P2002' && error.meta?.target?.includes('email')) {
@@ -55,7 +55,15 @@ export class PrismaUserRepository implements UserRepositoryInterface {
 
   async confirmEmail (id: string, email: string) : Promise<Either<ErrorBase, void>>{
     try{
-        await prisma.user.updateMany({where:{id:id,email:email},data:{accountConfirmed:true}})
+
+        const userExists = await prisma.user.findFirst({where:{
+          id:id,
+          email:email
+        }})
+
+        if(!userExists) return Left.create(new UserNotExistsError())
+
+        await prisma.user.update({where:{email:email},data:{accountConfirmed:true}})
         return Right.create(undefined)
     }catch(error: any){
       return Left.create(new ErrorBase(error.message, 500));
