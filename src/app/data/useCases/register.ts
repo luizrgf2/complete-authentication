@@ -91,7 +91,7 @@ export class RegisterUserUseCase implements RegisterUseCaseInterface{
         createUser.right.removeConfirmationEmailField()
         
         return Right.create({
-            user:{...createUser.right.user},
+            user:{...createUser.right.user,accountConfirmed:undefined},
             
         })
     }
